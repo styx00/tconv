@@ -93,15 +93,43 @@ function atoh
 function dtoa
 {
     # I need to fix the spaces here!
-    result=$(python -c "for i in \"${input}\".split(): print chr(int(i))")
-    echo ${result}
+    for n in ${input}
+    do
+        if [ $n -eq $n 2>/dev/null ]; then
+            if [[ $n -gt 256 ]] || [[ $n -lt 0 ]]; then
+                check="failedRange"
+            fi
+        else
+            check="failedType"
+        fi
+    done
+
+    if [[ ${check} == "failedRange" ]]; then
+        echo "The provided input contains reference(s) to non-ASCII characters."
+    elif [[ ${check} == "failedType" ]]; then
+        echo "The provided input contains non-Decimal characters."
+    else
+        result=$(python -c "for i in \"${input}\".split(): print chr(int(i))")
+        echo ${result}
+    fi
 }
 
 # Decimal to Hex Conversion
 function dtoh
 {
-    result=$(python -c "for i in \"${input}\".split(): print hex(int(i))" | sed 's/0x//' | tr -d [:space:])
-    echo ${result}
+    for n in ${input}
+    do
+        if [ $n -ne $n 2>/dev/null ]; then
+            check="failedType"
+        fi
+    done
+
+    if [[ ${check} == "failedType" ]]; then
+        echo "The provided input contains non-Decimal characters."
+    else
+        result=$(python -c "for i in \"${input}\".split(): print hex(int(i))" | sed 's/0x//g')
+        echo ${result}
+    fi
 }
 
 # Hex to ASCII Conversion
@@ -117,8 +145,8 @@ function htoa
 # Hex to Decimal Conversion
 function htod
 {
-    input=$(echo -n ${input} | sed 's/0x//')
-    result=$(python -c "print int(\"0x\"+\"${input}\", 0),;")
+    input=$(echo -n ${input} | sed 's/0x//g')
+    result=$(python -c "for i in \"${input}\".split(): print int(\"0x\"+i, 0),;")
     echo "${result}"
 }
 
