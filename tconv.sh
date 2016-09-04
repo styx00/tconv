@@ -92,7 +92,7 @@ function atod
 # ASCII to Hex Conversion
 function atoh
 {
-    result=$(xxd -p <<< "${input}")
+    result=$(xxd -p <<< "${input}" | tr -d \\n)
     echo "${result:0:${#result}-2}"
 }
 
