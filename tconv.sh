@@ -10,7 +10,14 @@ RESET=$(tput sgr0)
 function usage
 {
     printf "Usage: ./tconv.sh -m atoh -i some_text"
-    printf "\n\t-m, --mode\tMode, available modes: \n\t\t\t\trev  (Reverse Endianness)\n\t\t\t\tatoh (ASCII to Hex)\n\t\t\t\tatod (ASCII to Decimal)\n\t\t\t\tdtoa (Decimal to ASCII)\n\t\t\t\tdtoh (Decimal to Hex)\n\t\t\t\thtoa (Hex to ASCII)\n\t\t\t\thtod (Hex to Decimal)"
+    printf "\n\t-m, --mode\tMode, available modes:
+                            rev  (Reverse Endianness)
+                            atoh (ASCII to Hex)
+                            atod (ASCII to Decimal)
+                            dtoa (Decimal to ASCII)
+                            dtoh (Decimal to Hex)
+                            htoa (Hex to ASCII)
+                            htod (Hex to Decimal)"
     printf "\n\t-i, --input\tThe ASCII/decimal/hex value you want to convert"
     printf "\n\t-h, --help\tShow help and exit\n"
     printf "\nTo read from a file, use: ./tconv.sh -m atoh -i \"\$(cat test.txt)\"\n"
