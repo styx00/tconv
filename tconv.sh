@@ -17,7 +17,10 @@ function usage
                             dtoa (Decimal to ASCII)
                             dtoh (Decimal to Hex)
                             htoa (Hex to ASCII)
-                            htod (Hex to Decimal)"
+                            htod (Hex to Decimal)
+                            atoA (ASCII to All; hex and decimal)
+                            dtoA (Decimal to All; ASCII and hex)
+                            htoA (Hex to All; ASCII and decimal)"
     printf "\n\t-i, --input\tThe ASCII/decimal/hex value you want to convert"
     printf "\n\t-h, --help\tShow help and exit\n"
     printf "\nTo read from a file, use: ./tconv.sh -m atoh -i \"\$(cat test.txt)\"\n"
