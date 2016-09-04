@@ -57,28 +57,28 @@ function rev
 
 function atoA
 {
-    printf "ASCII:\n\t${input}\n"
-    printf "Decimal:\n\t"
+    printf "\n${BOLD}ASCII:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
+    printf "\n${BOLD}Decimal:${RESET}\n"
     atod
-    printf "Hex:\n\t"
+    printf "\n${BOLD}Hex:${RESET}\n"
     atoh
 }
 
 function dtoA
 {
-    printf "Decimal:\n\t${input}\n"
-    printf "ASCII:\n\t"
+    printf "\n${BOLD}Decimal:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
+    printf "\n${BOLD}ASCII:${RESET}\n"
     dtoa
-    printf "Hex:\n\t"
+    printf "\n${BOLD}Hex:${RESET}\n"
     dtoh
 }
 
 function htoA
 {
-    printf "Hex:\n\t${input}\n"
-    printf "ASCII:\n\t"
+    printf "\n${BOLD}Hex:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
+    printf "\n${BOLD}ASCII:${RESET}\n"
     htoa
-    printf "Decimal:\n\t"
+    printf "\n${BOLD}Decimal:${RESET}\n"
     htod
 }
 
@@ -86,14 +86,14 @@ function htoA
 function atod
 {
     result=$(python -c "for i in \"${input}\": print ord(i)")
-    echo ${result}
+    echo -e ${RED}${BOLD}${result}${RESET}
 }
 
 # ASCII to Hex Conversion
 function atoh
 {
     result=$(xxd -p <<< "${input}" | tr -d \\n)
-    echo "${result:0:${#result}-2}"
+    echo -e ${RED}${BOLD}${result:0:${#result}-2}${RESET}
 }
 
 # Decimal to ASCII Conversion
@@ -117,7 +117,7 @@ function dtoa
         echo "The provided input contains non-Decimal characters."
     else
         result=$(python -c "for i in \"${input}\".split(): print chr(int(i))")
-        echo ${result}
+        echo -e ${RED}${BOLD}${result}${RESET}
     fi
 }
 
@@ -135,7 +135,7 @@ function dtoh
         echo "The provided input contains non-Decimal characters."
     else
         result=$(python -c "for i in \"${input}\".split(): print hex(int(i))" | sed 's/0x//g')
-        echo ${result}
+        echo -e ${RED}${BOLD}${result}${RESET}
     fi
 }
 
@@ -146,15 +146,30 @@ function htoa
     	input=$(printf "0x${input}")
     fi
     result=$(xxd -r -p <<< ${input})
-    echo "${result}"
+    echo -e ${RED}${BOLD}${result}${RESET}
 }
 
 # Hex to Decimal Conversion
 function htod
 {
     input=$(echo -n ${input} | sed 's/0x//g')
-    result=$(python -c "for i in \"${input}\".split(): print int(\"0x\"+i, 0),;")
-    echo "${result}"
+
+    for n in ${input}
+    do
+        if [[ ${n} =~ ^[A-Fa-f0-9]*$ ]]; then
+            # ok
+            check="ok"
+        else
+            check="failedType"
+        fi
+    done
+
+    if [[ ${check} == "failedType" ]]; then
+        echo "The provided input contains non-hexadecimal characters."
+    else
+        result=$(python -c "for i in \"${input}\".split(): print int(\"0x\"+i, 0),;")
+        echo -e ${RED}${BOLD}${result}${RESET}
+    fi
 }
 
 # Modes
