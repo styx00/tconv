@@ -43,6 +43,7 @@ while [ "$1" != "" ]; do
     shift
 done
 
+# Function to reverse the Endianness of the input
 function rev
 {
     input=$(echo ${input} | sed 's/0x//')
@@ -58,6 +59,7 @@ function rev
     echo -e "${RED}${BOLD}${result2}${RESET}"
 }
 
+# ASCII to All
 function atoA
 {
     printf "\n${BOLD}ASCII:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
@@ -67,6 +69,7 @@ function atoA
     atoh
 }
 
+# Decimal to All
 function dtoA
 {
     printf "\n${BOLD}Decimal:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
@@ -76,6 +79,7 @@ function dtoA
     dtoh
 }
 
+# Hex to All
 function htoA
 {
     printf "\n${BOLD}Hex:${RESET}\n${GREEN}${BOLD}${input}${RESET}\n"
