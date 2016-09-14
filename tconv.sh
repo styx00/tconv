@@ -109,8 +109,10 @@ function dtoa
     # I need to fix the spaces here!
     for n in ${input}
     do
+        # Check if the input is a number
         if [ $n -eq $n 2>/dev/null ]; then
-            if [[ $n -gt 256 ]] || [[ $n -lt 0 ]]; then
+            # Check if the input can be converted to ASCII range 0-255
+            if [[ $n -gt 255 ]] || [[ $n -lt 0 ]]; then
                 check="failedRange"
             fi
         else
@@ -149,7 +151,7 @@ function dtoh
 # Hex to ASCII Conversion
 function htoa
 {
-    if (( $(printf "${input}" | cut -c1-2) != "0x" )); then
+    if [[ $(printf "${input}" | cut -c1-2) != "0x" ]]; then
     	input=$(printf "0x${input}")
     fi
     result=$(xxd -r -p <<< ${input})
