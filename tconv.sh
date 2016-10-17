@@ -49,14 +49,15 @@ function rev
     input=$(echo ${input} | sed 's/0x//')
     printf "${BOLD}Input:\n\t${GREEN}${BOLD}0x${input}${RESET}\n"
     printf "${BOLD}Payload:${RESET}\n\t"
-    echo -e "${GREEN}${BOLD}\\\x${input:0:2}\\\x${input:2:2}\\\x${input:4:2}\\\x${input:6:2}${RESET}"
+    result0=$(echo ${input} | grep -o .. | sed 's/^/&\\x/g' | echo "$(tr -d '\n')")
+    echo -en "${GREEN}${BOLD}"; echo -n ${result0}; echo -e "${RESET}"
 
-    result1=$(echo ${input:6:2}${input:4:2}${input:2:2}${input:0:2})
-    result2=$(echo "\\\x${input:6:2}\\\x${input:4:2}\\\x${input:2:2}\\\x${input:0:2}")
+    result1=$(echo ${input} | grep -o .. | tac | echo "$(tr -d '\n')")
+    result2=$(echo ${input} | grep -o .. | tac | sed 's/^/&\\x/g' | echo "$(tr -d '\n')")
     printf "\n${BOLD}Reversed Input:${RESET}\n\t"
     echo -e "${RED}${BOLD}0x${result1}${RESET}"
-    printf "${BOLD}Reversed Payload:${RESET}\n\t"
-    echo -e "${RED}${BOLD}${result2}${RESET}"
+    printf "${BOLD}Reversed Payload:${RESET}\n"
+    echo -en "\t${RED}${BOLD}"; echo -n ${result2}; echo -e "${RESET}"
 }
 
 # ASCII to All
